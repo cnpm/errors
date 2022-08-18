@@ -31,7 +31,7 @@ class ErrorRunner {
   constructor(options: ErrorRunnerOptions) {
     this.loglevel = options.loglevel || ErrorEnum.Error;
     this.path = options.path;
-    this.lang = (options.lang || 'zh-cn').toLowerCase();
+    this.lang = (options.lang || Intl.DateTimeFormat().resolvedOptions().locale).toLowerCase();
     this.prefix = options.prefix || '[@cnpmcore/errors]';
     this.errorCodeData = {};
   }
