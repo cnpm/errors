@@ -14,7 +14,7 @@ describe.only('test/index.test.ts', () => {
       loglevel: ErrorEnum.Warning,
     });
     await error.loadErrorData();
-    await error.test('02002');
+    await error.test("Node version '{0}' does not satisfy the lowest Node '{1}'");
   });
 
   describe('prefix', () => {
@@ -36,21 +36,21 @@ describe.only('test/index.test.ts', () => {
     });
 
     it('should throw error when no code configured', async () => {
-      await assert.rejects(errorRunner.precheck('111'), {
+      await assert.rejects(errorRunner.precheck('Error Hint 000'), {
         name: 'AssertionError',
-        message: '未配置错误码：111',
+        message: '未配置错误：Error Hint 000',
       });
     });
 
     it('should throw error when no tester file configured', async () => {
-      await assert.rejects(errorRunner.precheck('02005'), {
+      await assert.rejects(errorRunner.precheck('Error Hint No.5'), {
         name: 'Error',
         message: `${path.join(fixtures, 'error-config', '02005', TESTER)} 文件不存在`,
       });
     });
 
     it('should throw error when no config file configured', async () => {
-      await assert.rejects(errorRunner.precheck('02006'), {
+      await assert.rejects(errorRunner.precheck('Error Hint No.6'), {
         name: 'Error',
         message: `${path.join(fixtures, 'error-config', '02006', CONFIG)} 文件不存在`,
       });
@@ -82,19 +82,19 @@ describe.only('test/index.test.ts', () => {
     });
 
     it('should throw error when placeholder not match', async () => {
-      const code = '02007';
-      await errorRunner.precheck(code)
-      await assert.rejects(errorRunner.generate(code), {
+      const errHint = "Error Hint No.7 '{0}', '{1}'";
+      await errorRunner.precheck(errHint);
+      await assert.rejects(errorRunner.generate(errHint), {
         name: 'AssertionError',
-        message: "错误码所需参数不匹配！需要 2 个（当前 Node 版本 '{0}'，不符合最低 Node 版本 '{1}'，要求），实际 1 个（[\"v16.19.0\"]）",
+        message: "错误码所需参数不匹配！需要 2 个（错误提示 No.7, '{0}', '{1}'），实际 1 个（[\"v16.19.0\"]）",
       });
     });
 
     it('should success', async () => {
-      const code = '02001';
-      await errorRunner.precheck(code)
-      const message = await errorRunner.generate(code);
-      assert.strictEqual(message, '[@cnpmjs/errors]E02001: 当前 Node 版本 v10.10.0，不符合最低 Node 版本 v14.20.0，要求');
+      const errHint = 'Error Hint No.1';
+      await errorRunner.precheck(errHint);
+      const message = await errorRunner.generate(errHint);
+      assert.strictEqual(message, '[@cnpmjs/errors]E02001: 错误提示 No.1');
     });
   });
 
@@ -111,32 +111,36 @@ describe.only('test/index.test.ts', () => {
 
     it('should do nothing', async () => {
       const code = '02008';
-      await errorRunner.precheck(code)
+      const errHint = 'Error Hint No.8'
+      await errorRunner.precheck(errHint)
       const valid = await errorRunner.runTest(code);
-      const message = await errorRunner.generate(code);
+      const message = await errorRunner.generate(errHint);
       await assert.doesNotReject(errorRunner.fixOrNot(code, message, valid));
     });
     it('should print warning', async () => {
       const code = '02009';
-      await errorRunner.precheck(code)
+      const errHint = 'Error Hint No.9';
+      await errorRunner.precheck(errHint)
       const valid = await errorRunner.runTest(code);
-      const message = await errorRunner.generate(code);
+      const message = await errorRunner.generate(errHint);
       await assert.doesNotReject(errorRunner.fixOrNot(code, message, valid));
     });
 
     it('should run fixer successfully', async () => {
       const code = '02010';
-      await errorRunner.precheck(code)
+      const errHint = 'Error Hint No.10';
+      await errorRunner.precheck('Error Hint No.10')
       const valid = await errorRunner.runTest(code);
-      const message = await errorRunner.generate(code);
+      const message = await errorRunner.generate(errHint);
       await assert.doesNotReject(errorRunner.fixOrNot(code, message, valid));
     });
 
     it('should run fixer failed', async () => {
       const code = '02011';
-      await errorRunner.precheck(code)
+      const errHint = 'Error Hint No.11';
+      await errorRunner.precheck('Error Hint No.11')
       const valid = await errorRunner.runTest(code);
-      const message = await errorRunner.generate(code);
+      const message = await errorRunner.generate(errHint);
       await assert.doesNotReject(errorRunner.fixOrNot(code, message, valid));
     });
   });

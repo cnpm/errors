@@ -12,5 +12,5 @@ const error = new ErrorRunner({
 
 (async () => {
   await error.loadErrorData();
-  await error.test('02012');
+  await error.test('Error Hint No.12');
 })();

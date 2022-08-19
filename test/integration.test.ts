@@ -11,7 +11,7 @@ describe('test/integation.test.ts', () => {
       .debug()
       .end();
     assert.strictEqual(code, 1);
-    assert.match(stdout, /\[@cnpmjs\/errors\]E02001: 当前 Node 版本 v10.10.0，不符合最低 Node 版本 v14.20.0，要求/);
+    assert.match(stdout, /\[@cnpmjs\/errors\]E02001: 错误提示 No.1/);
   });
 
   it('should print error message and fix successfully', async () => {
@@ -29,7 +29,7 @@ describe('test/integation.test.ts', () => {
       .debug()
       .end();
     assert.strictEqual(code, 0);
-    assert.match(stdout, /\[@cnpmjs\/errors\]W02003: 当前 Node 版本 v14.20.0，不符合最低 Node 版本 v16.19.0，要求/);
+    assert.match(stdout, /\[@cnpmjs\/errors\]W02003: 错误提示 No.3/);
     assert.match(stdout, /\[@cnpmjs\/errors\]W02003: 错误码修复失败，请手动或参照文档修复。https:\/\/alipay.com/)
   });
 
@@ -54,6 +54,6 @@ describe('test/integation.test.ts', () => {
       .debug()
       .end();
     assert.strictEqual(code, 0);
-    assert.match(stdout, /\[@cnpmjs\/errors\]I02012: 当前框架是 @cnpmjs\/errors@1.0.0/);
+    assert.match(stdout, /\[@cnpmjs\/errors\]I02012: 错误提示 No.12/);
   });
 });

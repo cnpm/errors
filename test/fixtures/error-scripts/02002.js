@@ -12,5 +12,5 @@ const error = new ErrorRunner({
 
 (async () => {
   await error.loadErrorData();
-  await error.test('02002');
+  await error.test("Node version '{0}' does not satisfy the lowest Node '{1}'");
 })();
