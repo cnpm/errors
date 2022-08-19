@@ -13,17 +13,19 @@ describe.only('test/index.test.ts', () => {
       lang: 'zh-cn',
       loglevel: ErrorEnum.Warning,
     });
+    await error.loadErrorData();
     await error.test('02002');
   });
 
   describe('prefix', () => {
     let errorRunner: ErrorRunner;
-    beforeEach(() => {
+    beforeEach(async () => {
       errorRunner = new ErrorRunner({
         loglevel: ErrorEnum.Error,
         path: path.join(fixtures, 'error-config'),
         lang: 'zh-cn',
       });
+      await errorRunner.loadErrorData();
     });
 
     it('should throw error when no code present', async () => {
@@ -61,7 +63,7 @@ describe.only('test/index.test.ts', () => {
         lang: 'lang-not-exists',
       });
 
-      await assert.rejects(errorRunner.precheck("11"), {
+      await assert.rejects(errorRunner.loadErrorData(), {
         name: 'Error',
         message: `${path.join(fixtures, 'error-config', 'lang-not-exists.json')} 文件不存在`,
       });
@@ -70,13 +72,13 @@ describe.only('test/index.test.ts', () => {
 
   describe('generate', () => {
     let errorRunner: ErrorRunner;
-    beforeEach(() => {
+    beforeEach(async () => {
       errorRunner = new ErrorRunner({
         loglevel: ErrorEnum.Error,
         path: path.join(fixtures, 'error-config'),
         lang: 'zh-cn',
       });
-
+      await errorRunner.loadErrorData();
     });
 
     it('should throw error when placeholder not match', async () => {
@@ -92,18 +94,19 @@ describe.only('test/index.test.ts', () => {
       const code = '02001';
       await errorRunner.precheck(code)
       const message = await errorRunner.generate(code);
-      assert.strictEqual(message, '[@cnpmcore/errors]E02001: 当前 Node 版本 v10.10.0，不符合最低 Node 版本 v14.20.0，要求');
+      assert.strictEqual(message, '[@cnpmjs/errors]E02001: 当前 Node 版本 v10.10.0，不符合最低 Node 版本 v14.20.0，要求');
     });
   });
 
   describe('fixOrNot', () => {
     let errorRunner: ErrorRunner;
-    beforeEach(() => {
+    beforeEach(async () => {
       errorRunner = new ErrorRunner({
         loglevel: ErrorEnum.Warning,
         path: path.join(fixtures, 'error-config'),
         lang: 'zh-cn',
       });
+      await errorRunner.loadErrorData();
     });
 
     it('should do nothing', async () => {

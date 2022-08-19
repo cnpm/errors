@@ -1,5 +1,3 @@
-async function tester() {
-  process.exit(1);
+module.exports = async function tester() {
+  throw 'aaaa'
 }
-
-tester();

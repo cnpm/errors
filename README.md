@@ -10,7 +10,7 @@ and users should save their lives when things could be done with codes.
 
 # Installation
 ```bash
-npm i -S @cnpmcore/errors
+npm i -S @cnpmjs/errors
 ```
 
 
@@ -18,7 +18,7 @@ npm i -S @cnpmcore/errors
 
 1. JS Code sample
 ```javascript
-const { ErrorRunner, ErrorEnum } = require('@cnpmcore/errors');
+const { ErrorRunner, ErrorEnum } = require('@cnpmjs/errors');
 onst error = new ErrorRunner({
   path: path.join('/path/to/your/error/folder'), // error config folders
   lang: 'zh-cn', // i18n

@@ -1,4 +1,5 @@
 {
+  "extends": "@eggjs/tsconfig",
   "compilerOptions": {
     "useUnknownInCatchVariables": true,
     "allowSyntheticDefaultImports": true,
@@ -19,7 +20,6 @@
     "suppressExcessPropertyErrors": true,
     "forceConsistentCasingInFileNames": true,
     "target": "ES2018",
-    "sourceMap": true,
     "esModuleInterop": true,
     "stripInternal": true,
     "lib": [

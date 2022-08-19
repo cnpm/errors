@@ -1,10 +1,7 @@
 import assert from 'assert';
 import path from 'path';
 import fs from 'fs/promises';
-import cp from 'child_process';
 import { format } from 'util';
-// @ts-ignore
-import awaitEvent from 'await-event';
 import {
   ErrorRunnerOptions,
   ErrorOptions,
@@ -32,8 +29,22 @@ class ErrorRunner {
     this.loglevel = options.loglevel || ErrorEnum.Error;
     this.path = options.path;
     this.lang = (options.lang || Intl.DateTimeFormat().resolvedOptions().locale).toLowerCase();
-    this.prefix = options.prefix || '[@cnpmcore/errors]';
+    this.prefix = options.prefix || '[@cnpmjs/errors]';
     this.errorCodeData = {};
+  }
+
+  async loadErrorData() {
+    const errorCodePath = path.join(this.path, `${this.lang}.json`);
+    try {
+      await fs.stat(errorCodePath);
+    } catch (error) {
+      throw new Error(`${errorCodePath} 文件不存在`);
+    }
+
+    if (!Object.keys(this.errorCodeData).length) {
+      const fileData = await fs.readFile(errorCodePath, 'utf8');
+      this.errorCodeData = JSON.parse(fileData);
+    }
   }
 
   async test(code: string) {
@@ -45,19 +56,6 @@ class ErrorRunner {
 
   async precheck(code: string) {
     assert(code, `错误码不存在：${code}`);
-
-    const errorCodePath = path.join(this.path, `${this.lang}.json`);
-    try {
-      await fs.stat(errorCodePath);
-    } catch (error) {
-      throw new Error(`${errorCodePath} 文件不存在`);
-    }
-
-
-    if (!Object.keys(this.errorCodeData).length) {
-      const fileData = await fs.readFile(errorCodePath, 'utf8');
-      this.errorCodeData = JSON.parse(fileData);
-    }
 
     assert(this.errorCodeData[code], `未配置错误码：${code}`);
 
@@ -78,14 +76,12 @@ class ErrorRunner {
 
   async runTest(code: string): Promise<boolean> {
     const testerPath = path.join(this.path, code, TESTER);
-    const subprocess = cp.fork(testerPath);
-    let exitCode = 1;
     try {
-      exitCode = await awaitEvent(subprocess, 'exit');
+      const tester = await import(testerPath);
+      await tester.default();
+      return true;
     } catch (_) {
-      // ignore error
-    } finally {
-      return exitCode === 0;
+      return false;
     }
   }
 
@@ -151,11 +147,11 @@ class ErrorRunner {
       const fixerPath = path.join(this.path, code, FIXER);
       const prefix = this.getPrefix(error.loglevel!, code);
 
-      const subprocess = cp.fork(fixerPath);
-      const exitCode = await awaitEvent(subprocess, 'exit');
-      if (exitCode === 0) {
+      try {
+        const fixer = await import(fixerPath);
+        await fixer.default();
         log.success(`${prefix}错误修复成功！`);
-      } else {
+      } catch (_) {
         log.error(`${prefix}错误码修复失败，请手动或参照文档修复。${error.readme || ''}`);
       }
     }

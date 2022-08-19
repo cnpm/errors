@@ -1,5 +1,3 @@
-async function fixer() {
-  process.exit(1);
+module.exports = async () => {
+  throw new Error('fixer runs into error.');
 }
-
-fixer();

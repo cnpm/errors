@@ -9,6 +9,8 @@ const error = new ErrorRunner({
   lang: 'zh-cn',
 });
 
+
 (async () => {
+  await error.loadErrorData();
   await error.test('02001');
 })();

@@ -1,5 +1,3 @@
-async function tester() {
-  process.exit(1);
+module.exports = async () => {
+  throw new Error('tester runs into error.');
 }
-
-tester();

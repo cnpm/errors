@@ -1,4 +1,2 @@
-async function fixer() {
+module.exports = async () => {
 }
-
-fixer();
