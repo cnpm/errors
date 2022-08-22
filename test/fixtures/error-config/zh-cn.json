@@ -1,0 +1,15 @@
+{
+  "Current Node version is '{0}'": "当前运行 Node 版本为 '{0}'",
+  "Error Hint No.1": "错误提示 No.1",
+  "Node version '{0}' does not satisfy the lowest Node '{1}'": "当前 Node 版本 '{0}'，不符合最低 Node 版本 '{1}'，要求",
+  "Error Hint No.3": "错误提示 No.3",
+  "Error Hint No.4": "错误提示 No.4",
+  "Error Hint No.5": "错误提示 No.5",
+  "Error Hint No.6": "错误提示 No.6",
+  "Error Hint No.7 '{0}', '{1}'": "错误提示 No.7, '{0}', '{1}'",
+  "Error Hint No.8": "错误提示 No.8",
+  "Error Hint No.9": "错误提示 No.9",
+  "Error Hint No.10": "错误提示 No.10",
+  "Error Hint No.11": "错误提示 No.11",
+  "Error Hint No.12": "错误提示 No.12"
+}
