@@ -65,10 +65,7 @@ describe('test/index.test.ts', () => {
         lang: 'lang-not-exists',
       });
 
-      await assert.rejects(errorRunner.loadErrorData(), {
-        name: 'Error',
-        message: `${path.join(fixtures, 'error-config', 'lang-not-exists.json')} 文件不存在`,
-      });
+      await assert.doesNotReject(errorRunner.loadErrorData());
     });
   });
 

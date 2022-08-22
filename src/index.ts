@@ -63,15 +63,12 @@ class ErrorRunner {
 
     if (this.lang !== DEFAULT_LANG) {
       const i18nPath = path.join(this.path, `${this.lang}.json`);
-
       try {
         await fs.stat(i18nPath);
+        this.i18nData = await readJSON(i18nPath);
       } catch (error) {
-        throw new Error(`${i18nPath} 文件不存在`);
+        // use default lang configuration
       }
-      this.i18nData = await readJSON(i18nPath);
-    } else {
-      this.i18nData = {};
     }
   }
 
@@ -119,7 +116,7 @@ class ErrorRunner {
     // 国际化
     let message = this.i18nData[errHint] || errHint;
     const error = await this.getError(code);
-    const loglevel = error.loglevel!;
+    const loglevel = error.loglevel || this.loglevel;
     const placeholders = error?.placeholders || [];
     const placeholderLen = message.match(/'\{\d+\}'/g)?.length || 0;
     assert(placeholders.length >= placeholderLen, `错误码所需参数不匹配！需要 ${placeholderLen} 个（${message}），实际 ${placeholders.length} 个（${JSON.stringify(placeholders)}）`);
