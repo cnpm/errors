@@ -21,5 +21,6 @@ export const PLACEHOLDER = "'{%s}'"; // %s 使用索引替换
 export const TESTER = 'tester.js';
 export const FIXER = 'fixer.js';
 export const CONFIG = 'config.js';
-export const ERR_CONFIG = 'error.json';
+export const ERR_CONFIG = 'error.js';
 export const DEFAULT_LANG = 'en-us';
+export const ERROR_IDENTIFIER = Symbol('cnpm-error');

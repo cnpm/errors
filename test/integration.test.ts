@@ -11,7 +11,7 @@ describe('test/integation.test.ts', () => {
       .debug()
       .end();
     assert.strictEqual(code, 1);
-    assert.match(stdout, /\[@cnpmjs\/errors\]E02001: 错误提示 No.1/);
+    assert.match(stdout, /\[@cnpmjs\/errors\]E02001: 当前运行 Node 版本为 v14.20.0/);
   });
 
   it('should print error message and fix successfully', async () => {

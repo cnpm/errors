@@ -2,6 +2,7 @@
 
 const path = require('path');
 const fixtures = path.join(__dirname, '..');
+const { Error4 } = require('../error-config/error');
 const { ErrorRunner, ErrorEnum } = require('../../../lib');
 
 const error = new ErrorRunner({
@@ -12,5 +13,5 @@ const error = new ErrorRunner({
 
 (async () => {
   await error.loadErrorData();
-  await error.test('Error Hint No.4');
+  await error.test(new Error());
 })();

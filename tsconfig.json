@@ -1,7 +1,6 @@
 {
   "extends": "@eggjs/tsconfig",
   "compilerOptions": {
-    "useUnknownInCatchVariables": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "downlevelIteration": true,
