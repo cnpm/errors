@@ -1,4 +1,5 @@
-async function fixer() {
+module.exports = async function fixer() {
 }
 
-fixer();
+exports.fixSuccess = '修复成功';
+exports.fixFailure = '修复失败';

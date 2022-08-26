@@ -19,6 +19,9 @@ import {
   ERROR_IDENTIFIER,
 } from "./constants";
 import * as log from "./log";
+import theDebug from 'debug';
+
+const debug = theDebug('cnpmjs-errors');
 
 async function readJSON(file: string): Promise<Record<string, string>> {
   const fileData = await fs.readFile(file, 'utf8');
@@ -54,6 +57,9 @@ class ErrorRunner {
   }
 
   async loadErrorData() {
+    if (Object.keys(this.i18nData).length > 0) {
+      return;
+    }
     const errorCodePath = path.join(this.path, ERR_CONFIG);
     try {
       await fs.stat(errorCodePath);
@@ -67,6 +73,7 @@ class ErrorRunner {
         await fs.stat(i18nPath);
         this.i18nData = await readJSON(i18nPath);
       } catch (error) {
+        debug('loadErrorData error: ', error);
         // use default lang configuration
       }
     }
@@ -107,7 +114,8 @@ class ErrorRunner {
       const tester = await import(testerPath);
       await tester.default();
       return true;
-    } catch (_) {
+    } catch (error) {
+      debug('runTest error: ', error);
       return false;
     }
   }
@@ -148,7 +156,8 @@ class ErrorRunner {
     try {
       await fs.stat(fixerPath);
       error.fix = true;
-    } catch (_) {
+    } catch (error) {
+      debug('getFixer error: ', error);
       // do nothing
     }
 
@@ -177,9 +186,10 @@ class ErrorRunner {
       try {
         const fixer = await import(fixerPath);
         await fixer.default();
-        log.success(`${prefix}错误修复成功！`);
-      } catch (_) {
-        log.error(`${prefix}错误码修复失败，请手动或参照文档修复。${error.readme || ''}`);
+        log.success(`${prefix}修复成功！`);
+      } catch (err) {
+        debug('run fixer error: ', err);
+        log.error(`${prefix}修复失败，请手动或参照文档修复。${error.readme || ''}`);
       }
     }
   }
