@@ -25,8 +25,8 @@ const error = new ErrorRunner({
   loglevel: ErrorEnum.Info, // global error level
 });
 
-// run your error code
-await error.test('02012');
+// run customized error
+await error.test(new CustomizedError());
 ```
 
 2. Error configuration

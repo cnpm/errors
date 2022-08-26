@@ -20,7 +20,7 @@ describe('test/integation.test.ts', () => {
       .end();
     assert.strictEqual(code, 0);
     assert.match(stdout, /\[@cnpmjs\/errors\]W02002: 当前 Node 版本 v14.20.0，不符合最低 Node 版本 v16.19.0，要求/);
-    assert.match(stdout, /\[@cnpmjs\/errors\]W02002: 错误修复成功！/);
+    assert.match(stdout, /\[@cnpmjs\/errors\]W02002: 修复成功！/);
 
   });
 
@@ -30,7 +30,7 @@ describe('test/integation.test.ts', () => {
       .end();
     assert.strictEqual(code, 0);
     assert.match(stdout, /\[@cnpmjs\/errors\]W02003: 错误提示 No.3/);
-    assert.match(stdout, /\[@cnpmjs\/errors\]W02003: 错误码修复失败，请手动或参照文档修复。https:\/\/alipay.com/)
+    assert.match(stdout, /\[@cnpmjs\/errors\]W02003: 修复失败，请手动或参照文档修复。https:\/\/alipay.com/)
   });
 
   it('should print nothing when loglevel is error and encounter a warning', async () => {
