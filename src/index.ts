@@ -134,6 +134,10 @@ class ErrorRunner {
     });
 
     message = `${this.getPrefix(loglevel, code)}${message}`;
+
+    if (error.readme) {
+      message = `${message}\n${this.getPrefix(loglevel, code)}参考文档，了解更多：${error.readme}`;
+    }
     return message;
   }
 
