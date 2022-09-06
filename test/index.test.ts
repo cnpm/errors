@@ -93,7 +93,7 @@ describe('test/index.test.ts', () => {
       const { code, message } = new Error1();
       await errorRunner.precheck(code, message);
       const errHint = await errorRunner.generate(code, message);
-      assert.strictEqual(errHint, '[@cnpmjs/errors]E02001: 当前运行 Node 版本为 v14.20.0');
+      assert.strictEqual(errHint, '[@cnpmjs/errors]E02001: 当前运行 Node 版本为 v14.20.0\n[@cnpmjs/errors]E02001: 参考文档，了解更多：aaa');
     });
   });
 
